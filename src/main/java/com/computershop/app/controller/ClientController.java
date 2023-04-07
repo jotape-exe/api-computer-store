@@ -1,6 +1,5 @@
 package com.computershop.app.controller;
 
-import com.computershop.app.model.Address;
 import com.computershop.app.model.Client;
 import com.computershop.app.service.impl.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
