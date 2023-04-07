@@ -14,6 +14,6 @@ public class SpringdocConfig {
     public OpenAPI baseOpenAPI() {
 
         return new OpenAPI()
-                .info(new Info().title("Spring Doc").version("1.0.0").description("Spring doc"));
+                .info(new Info().title("Computer Shop API").version("1.0.0").description("Spring doc"));
     }
 }
