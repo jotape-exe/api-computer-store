@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class ClientService implements CrudService<Client> {
@@ -36,12 +37,11 @@ public class ClientService implements CrudService<Client> {
     }
 
     @Override
-    @Transactional
+    @Transactional //Funciona se remover
     public Client create(Client client) {
         client.setId(null);
         return saveClientCep(client);
     }
-
     @Override
     @Transactional
     public Client update(Client client) {
@@ -62,17 +62,17 @@ public class ClientService implements CrudService<Client> {
         }
     }
 
-    public Client saveClientCep(Client client){
-        String cep = client.getAddress().getCep();
-        Address address = addressRepository.findById(cep).orElseGet(() -> {
-            // Caso não exista, integrar com o ViaCEP e persistir o retorno.
-            Address newAddress = viaCepService.consultarCep(cep);
-            addressRepository.save(newAddress);
-            return newAddress;
+    private Client saveClientCep(Client client){
+        CompletableFuture<Address> addressFuture = CompletableFuture.supplyAsync(()->{
+            String cep = client.getAddress().getCep();
+            return addressRepository.findById(cep).orElseGet(()->{
+                Address newAddress = viaCepService.consultarCep(cep);
+                addressRepository.save(newAddress);
+                return newAddress;
+            });
         });
-        client.setAddress(address);
-        // Inserir Cliente, vinculando o Endereco (novo ou existente).
+        client.setAddress(addressFuture.join());
         return this.clientRepository.save(client);
     }
-
+    
 }
