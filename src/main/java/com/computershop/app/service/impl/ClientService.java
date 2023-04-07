@@ -48,7 +48,7 @@ public class ClientService implements CrudService<Client> {
         Client newClient = findById(client.getId());
         newClient.setName(client.getName());
         newClient.setPhone(client.getPhone());
-        newClient.setAddress(viaCepService.consultarCep(client.getAddress().getCep()));
+        newClient.setAddress(client.getAddress());
 
         return saveClientCep(newClient);
     }

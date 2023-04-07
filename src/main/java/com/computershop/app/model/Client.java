@@ -22,8 +22,7 @@ public class Client implements Serializable {
     @Column(name = "phone")
     private String phone;
 
-
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "addres_id", referencedColumnName = "cep")
     private Address address;
 
