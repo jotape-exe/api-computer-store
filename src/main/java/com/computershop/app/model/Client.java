@@ -13,7 +13,7 @@ public class Client implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     @Column(name = "name")
@@ -23,7 +23,7 @@ public class Client implements Serializable {
     private String phone;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "addres_id", referencedColumnName = "cep")
+    @JoinColumn(name = "address_client", referencedColumnName = "cep")
     private Address address;
 
     public Long getId() {

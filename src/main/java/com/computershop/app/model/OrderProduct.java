@@ -1,22 +1,23 @@
 package com.computershop.app.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.aspectj.weaver.ast.Or;
 
 @Entity
 @Table(name = "order_product")
 public class OrderProduct {
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "INT")
     private Long id;
 
-    @Column(name = "order_id")
-    private Long orderId;
+    @JoinColumn(name = "id_order", referencedColumnName = "id")
+    @ManyToOne
+    private Order order;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @JoinColumn(name = "id_product", referencedColumnName = "id")
+    @ManyToOne
+    private Product product;
 
     public Long getId() {
         return id;
@@ -26,19 +27,19 @@ public class OrderProduct {
         this.id = id;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

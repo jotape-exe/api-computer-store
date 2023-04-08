@@ -23,7 +23,7 @@ public class Product {
     private Double value;
 
     @Column(name = "amout")
-    private Integer amount;
+    private int amount;
 
     public Long getId() {
         return id;
@@ -65,11 +65,11 @@ public class Product {
         this.value = value;
     }
 
-    public Integer getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 }

@@ -1,4 +1,4 @@
-package com.computershop.app.enumeration;
+package com.computershop.app.enummeration;
 
 public enum StatusOrder {
     OPENED,
