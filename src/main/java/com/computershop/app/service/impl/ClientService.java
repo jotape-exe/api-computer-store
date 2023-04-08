@@ -74,5 +74,5 @@ public class ClientService implements CrudService<Client> {
         client.setAddress(addressFuture.join());
         return this.clientRepository.save(client);
     }
-    
+
 }
