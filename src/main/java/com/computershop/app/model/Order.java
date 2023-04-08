@@ -18,6 +18,7 @@ public class Order {
     private Date creationDate;
 
     @Column(name = "status", columnDefinition = "VARCHAR(20)")
+    @Enumerated(EnumType.STRING)
     private StatusOrder statusOrder;
 
     @ManyToOne
@@ -46,5 +47,13 @@ public class Order {
 
     public void setStatusOrder(StatusOrder statusOrder) {
         this.statusOrder = statusOrder;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

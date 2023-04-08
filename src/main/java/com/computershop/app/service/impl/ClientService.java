@@ -40,7 +40,7 @@ public class ClientService implements CrudService<Client> {
     @Transactional //Funciona se remover
     public Client create(Client client) {
         client.setId(null);
-        return saveClientCep(client);
+        return this.saveClientCep(client);
     }
     @Override
     @Transactional
@@ -50,7 +50,7 @@ public class ClientService implements CrudService<Client> {
         newClient.setPhone(client.getPhone());
         newClient.setAddress(client.getAddress());
 
-        return saveClientCep(newClient);
+        return this.saveClientCep(newClient);
     }
 
     @Override
