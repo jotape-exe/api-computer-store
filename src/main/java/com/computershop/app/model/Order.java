@@ -13,11 +13,16 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation", columnDefinition = "DATE")
     private Date creationDate;
 
     @Column(name = "status", columnDefinition = "VARCHAR(20)")
     private StatusOrder statusOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    private Client client;
 
     public Long getId() {
         return id;
