@@ -2,10 +2,12 @@ package com.computershop.app.service.impl;
 
 import com.computershop.app.model.Address;
 import com.computershop.app.model.Client;
+import com.computershop.app.model.dto.ClientDTO;
 import com.computershop.app.repository.AddressRepository;
 import com.computershop.app.repository.ClientRepository;
 import com.computershop.app.service.CrudService;
 import com.computershop.app.service.ViaCepService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,5 +76,18 @@ public class ClientService implements CrudService<Client> {
         client.setAddress(addressFuture.join());
         return this.clientRepository.save(client);
     }
+
+
+
+    public Client fromDTO(@Valid ClientDTO clientDTO){
+        Client client = new Client();
+        client.setId(clientDTO.getId());
+        client.setName(clientDTO.getName());
+        client.setPhone(clientDTO.getPhone());
+        client.setAddress(clientDTO.getAddress());
+        return client;
+    }
+
+
 
 }
