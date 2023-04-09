@@ -1,9 +1,12 @@
 package com.computershop.app.controller;
 
 import com.computershop.app.model.Client;
+import com.computershop.app.model.dto.ClientDTO;
 import com.computershop.app.service.impl.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -12,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/client")
+@Validated
 public class ClientController {
 
     @Autowired
@@ -30,7 +34,8 @@ public class ClientController {
     }
 
     @PostMapping("/new/")
-    public ResponseEntity<Void> createClient(@RequestBody Client client){
+    public ResponseEntity<Void> createClient(@RequestBody @Valid ClientDTO clientDTO){
+        Client client = this.clientService.fromDTO(clientDTO);
         this.clientService.create(client);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/id").buildAndExpand(client.getId()).toUri();
@@ -38,8 +43,9 @@ public class ClientController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateCLient(@RequestBody Client client, @PathVariable Long id){
-        client.setId(id);
+    public ResponseEntity<Void> updateCLient(@RequestBody @Valid ClientDTO clientDTO, @PathVariable Long id){
+        clientDTO.setId(id);
+        Client client = this.clientService.fromDTO(clientDTO);
         client = this.clientService.update(client);
         return ResponseEntity.ok().build();
     }
