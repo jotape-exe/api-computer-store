@@ -1,6 +1,6 @@
 package com.computershop.app.model;
 
-import com.computershop.app.enummeration.StatusOrder;
+import com.computershop.app.enums.StatusOrder;
 import jakarta.persistence.*;
 
 import java.util.Date;
