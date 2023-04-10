@@ -1,11 +1,8 @@
 package com.computershop.app.service.impl;
 
 import com.computershop.app.model.Order;
-import com.computershop.app.model.Product;
 import com.computershop.app.model.dto.OrderDTO;
-import com.computershop.app.model.dto.ProductDTO;
 import com.computershop.app.model.dto.request.OrderRequest;
-import com.computershop.app.model.dto.request.ProductRequest;
 import com.computershop.app.repository.OrderRepositoy;
 import com.computershop.app.service.ConvertService;
 import com.computershop.app.service.CrudService;
@@ -68,7 +65,7 @@ public class OrderService implements CrudService<Order>, ConvertService<Order, O
         order.setId(orderDTO.getId());
         order.setStatusOrder(orderDTO.getStatusOrder());
         order.setCreationDate(orderDTO.getCreationDate());
-        order.setClient(this.clientService.fromRequest(orderDTO.getClientResponse()));
+        order.setClient(this.clientService.fromRequest(orderDTO.getClientRequest()));
 
         return order;
     }

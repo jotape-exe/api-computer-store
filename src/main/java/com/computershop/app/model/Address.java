@@ -27,8 +27,6 @@ public class Address {
     @Column(name = "ddd", columnDefinition = "VARCHAR(2)")
     private String ddd;
 
-
-
     public String getCep() {
         return cep;
     }
@@ -77,7 +75,6 @@ public class Address {
         this.uf = uf;
     }
 
-
     public String getDdd() {
         return ddd;
     }
@@ -85,5 +82,4 @@ public class Address {
     public void setDdd(String ddd) {
         this.ddd = ddd;
     }
-
 }

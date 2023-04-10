@@ -42,11 +42,11 @@ public class OrderDTO {
         this.statusOrder = statusOrder;
     }
 
-    public ClientRequest getClientResponse() {
+    public ClientRequest getClientRequest() {
         return clientRequest;
     }
 
-    public void setClientResponse(ClientRequest clientRequest) {
+    public void setClientRequest(ClientRequest clientRequest) {
         this.clientRequest = clientRequest;
     }
 }
