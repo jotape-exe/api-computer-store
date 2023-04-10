@@ -1,5 +1,6 @@
 # Spring Boot API Usage Guide for Computer Shop
 
+<p align="center">
 <a alt="Java">
     <img src="https://img.shields.io/badge/Java-v17-red.svg" />
 </a>
@@ -9,7 +10,7 @@
 <a alt="Gradle">
     <img src="https://img.shields.io/badge/Gradle-v8.0.2-blue.svg" />
 </a>
-
+<p>
 This document provides instructions on how to use the Spring Boot API to register customers, products, and orders in a computer store. The API was developed in Java and also makes requests to the external API ```https://viacep.com.br``` to register a customer with an existing Brazilian address. It is also worth noting that the MySQL database. Additionally, the API has documentation for the Swagger-ui interface, which can be used to test endpoints.
 
 ## Configuration
