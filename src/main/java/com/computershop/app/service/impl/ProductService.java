@@ -1,8 +1,11 @@
 package com.computershop.app.service.impl;
 
 import com.computershop.app.model.Product;
+import com.computershop.app.model.dto.ProductDTO;
+import com.computershop.app.model.dto.request.ProductRequest;
 import com.computershop.app.repository.ProductRepository;
 import com.computershop.app.service.CrudService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,5 +58,25 @@ public class ProductService implements CrudService<Product> {
         } catch (Exception ex){
            throw new RuntimeException("Product not found ID -> ("+id+")");
         }
+    }
+
+    public Product fromDTO(@Valid ProductDTO productDTO){
+        Product product = new Product();
+
+        product.setId(productDTO.getId());
+        product.setValue(productDTO.getValue());
+        product.setAmount(productDTO.getAmount());
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setManufacturer(productDTO.getManufacturer());
+
+        return product;
+    }
+
+    public Product fromRequest(@Valid ProductRequest productRequest){
+        Product product = new Product();
+        product.setId(productRequest.getId());
+
+        return product;
     }
 }

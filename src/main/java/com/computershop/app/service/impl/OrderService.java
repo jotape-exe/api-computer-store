@@ -1,12 +1,14 @@
 package com.computershop.app.service.impl;
 
 import com.computershop.app.model.Order;
+import com.computershop.app.model.dto.OrderDTO;
+import com.computershop.app.model.dto.request.OrderRequest;
 import com.computershop.app.repository.OrderRepositoy;
 import com.computershop.app.service.CrudService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -15,6 +17,9 @@ public class OrderService implements CrudService<Order> {
 
     @Autowired
     private OrderRepositoy orderRepositoy;
+
+    @Autowired
+    private ClientService clientService;
 
     @Override
     public Order findById(Long id) {
@@ -49,5 +54,21 @@ public class OrderService implements CrudService<Order> {
         } catch (Exception ex){
             throw new RuntimeException("Order not found ID -> ("+id+")");
         }
+    }
+
+    public Order fromDTO(@Valid OrderDTO orderDTO){
+        Order order = new Order();
+        order.setId(orderDTO.getId());
+        order.setStatusOrder(orderDTO.getStatusOrder());
+        order.setCreationDate(orderDTO.getCreationDate());
+        order.setClient(this.clientService.fromRequest(orderDTO.getClientResponse()));
+
+        return order;
+    }
+
+    public Order fromRequest(@Valid OrderRequest orderRequest){
+        Order order = new Order();
+        order.setId(orderRequest.getId());
+        return order;
     }
 }

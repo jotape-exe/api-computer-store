@@ -3,6 +3,7 @@ package com.computershop.app.service.impl;
 import com.computershop.app.model.Address;
 import com.computershop.app.model.Client;
 import com.computershop.app.model.dto.ClientDTO;
+import com.computershop.app.model.dto.request.ClientRequest;
 import com.computershop.app.repository.AddressRepository;
 import com.computershop.app.repository.ClientRepository;
 import com.computershop.app.service.CrudService;
@@ -78,13 +79,18 @@ public class ClientService implements CrudService<Client> {
     }
 
 
-
     public Client fromDTO(@Valid ClientDTO clientDTO){
         Client client = new Client();
         client.setId(clientDTO.getId());
         client.setName(clientDTO.getName());
         client.setPhone(clientDTO.getPhone());
         client.setAddress(clientDTO.getAddress());
+        return client;
+    }
+
+    public Client fromRequest(@Valid ClientRequest clientRequest){
+        Client client = new Client();
+        client.setId(clientRequest.getId());
         return client;
     }
 

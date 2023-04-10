@@ -43,7 +43,7 @@ public class ClientController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateCLient(@RequestBody @Valid ClientDTO clientDTO, @PathVariable Long id){
+    public ResponseEntity<Void> updateClient(@RequestBody @Valid ClientDTO clientDTO, @PathVariable Long id){
         clientDTO.setId(id);
         Client client = this.clientService.fromDTO(clientDTO);
         client = this.clientService.update(client);

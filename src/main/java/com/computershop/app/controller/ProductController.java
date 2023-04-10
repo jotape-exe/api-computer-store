@@ -1,9 +1,12 @@
 package com.computershop.app.controller;
 
 import com.computershop.app.model.Product;
+import com.computershop.app.model.dto.ProductDTO;
 import com.computershop.app.service.impl.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -12,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@Validated
 public class ProductController {
 
     @Autowired
@@ -30,7 +34,8 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createProduct(@RequestBody Product product){
+    public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductDTO productDTO){
+        Product product = this.productService.fromDTO(productDTO);
         this.productService.create(product);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/id").buildAndExpand(product.getId()).toUri();
@@ -38,12 +43,14 @@ public class ProductController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateProduct(@RequestBody Product product, @PathVariable Long id){
-        product.setId(id);
+    public ResponseEntity<Void> updateProduct(@RequestBody @Valid ProductDTO productDTO, @PathVariable Long id){
+        productDTO.setId(id);
+        Product product = this.productService.fromDTO(productDTO);
         product = this.productService.update(product);
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) throws RuntimeException{
         this.productService.delete(id);
         return ResponseEntity.noContent().build();

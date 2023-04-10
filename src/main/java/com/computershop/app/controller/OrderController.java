@@ -1,9 +1,11 @@
 package com.computershop.app.controller;
 
 import com.computershop.app.model.Order;
+import com.computershop.app.model.dto.OrderDTO;
 import com.computershop.app.service.impl.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -12,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
+@Validated
 public class OrderController {
 
     @Autowired
@@ -30,7 +33,8 @@ public class OrderController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Void> newOrder(@RequestBody Order order){
+    public ResponseEntity<Void> newOrder(@RequestBody OrderDTO orderDTO){
+        Order order = this.orderService.fromDTO(orderDTO);
         this.orderService.create(order);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/id").buildAndExpand(order.getId()).toUri();
@@ -38,8 +42,9 @@ public class OrderController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateOrder(@RequestBody Order order, @PathVariable Long id){
-        order.setId(id);
+    public ResponseEntity<Void> updateOrder(@RequestBody OrderDTO orderDTO, @PathVariable Long id){
+        orderDTO.setId(id);
+        Order order = this.orderService.fromDTO(orderDTO);
         order = this.orderService.update(order);
         return ResponseEntity.ok().build();
     }
