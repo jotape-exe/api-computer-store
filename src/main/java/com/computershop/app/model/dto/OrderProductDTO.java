@@ -1,14 +1,11 @@
 package com.computershop.app.model.dto;
 
-import com.computershop.app.model.Order;
-import com.computershop.app.model.Product;
 import com.computershop.app.model.dto.request.OrderRequest;
 import com.computershop.app.model.dto.request.ProductRequest;
 import jakarta.validation.constraints.NotNull;
 
 public class OrderProductDTO {
 
-    @NotNull
     private Long id;
 
     @NotNull

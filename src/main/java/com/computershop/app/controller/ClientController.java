@@ -51,7 +51,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id) throws RuntimeException{
+    public ResponseEntity<Void> deleteClient(@PathVariable Long id){
        this.clientService.delete(id);
        return ResponseEntity.noContent().build();
     }

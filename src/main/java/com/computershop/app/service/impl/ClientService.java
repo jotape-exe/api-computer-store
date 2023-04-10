@@ -2,13 +2,19 @@ package com.computershop.app.service.impl;
 
 import com.computershop.app.model.Address;
 import com.computershop.app.model.Client;
+import com.computershop.app.model.Order;
 import com.computershop.app.model.dto.ClientDTO;
+import com.computershop.app.model.dto.OrderDTO;
 import com.computershop.app.model.dto.request.AddressRequest;
 import com.computershop.app.model.dto.request.ClientRequest;
+import com.computershop.app.model.dto.request.OrderRequest;
 import com.computershop.app.repository.AddressRepository;
 import com.computershop.app.repository.ClientRepository;
+import com.computershop.app.service.ConvertService;
 import com.computershop.app.service.CrudService;
 import com.computershop.app.service.ViaCepService;
+import com.computershop.app.service.exceptions.DataBindingViolationException;
+import com.computershop.app.service.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +25,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class ClientService implements CrudService<Client> {
+public class ClientService implements CrudService<Client>, ConvertService<Client, ClientDTO, ClientRequest> {
 
     @Autowired
     private ClientRepository clientRepository;
@@ -32,7 +38,7 @@ public class ClientService implements CrudService<Client> {
     @Override
     public Client findById(Long id) {
         Optional<Client> client = this.clientRepository.findById(id);
-        return client.orElseThrow(() -> new RuntimeException("Client not Found! ID ( "+id+" )"));
+        return client.orElseThrow(() -> new ObjectNotFoundException("Product Not Found! ID -> "+id));
     }
 
     @Override
@@ -62,7 +68,7 @@ public class ClientService implements CrudService<Client> {
         try {
             this.clientRepository.deleteById(id);
         } catch (Exception ex){
-            throw new RuntimeException("Client not Found! ID ( "+id+" )");
+            throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
     }
 
@@ -80,6 +86,7 @@ public class ClientService implements CrudService<Client> {
     }
 
 
+    @Override
     public Client fromDTO(@Valid ClientDTO clientDTO){
         Client client = new Client();
         client.setId(clientDTO.getId());
@@ -89,6 +96,7 @@ public class ClientService implements CrudService<Client> {
         return client;
     }
 
+    @Override
     public Client fromRequest(@Valid ClientRequest clientRequest){
         Client client = new Client();
         client.setId(clientRequest.getId());

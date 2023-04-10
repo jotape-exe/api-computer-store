@@ -1,30 +1,95 @@
 package com.computershop.app.exceptions;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import com.computershop.app.service.exceptions.DataBindingViolationException;
+import com.computershop.app.service.exceptions.ObjectNotFoundException;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.HashMap;
-import java.util.Map;
+
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleArgumentException(MethodArgumentNotValidException ex){
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
-        return errors;
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    //@Value("${server.error.include-exception}")
+    //private boolean printStackTrace;
+
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException methodArgumentNotValidException,
+            HttpHeaders headers,
+            HttpStatus status,
+            WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Validation error. Check 'errors' field for details.");
+        for (FieldError fieldError : methodArgumentNotValidException.getBindingResult().getFieldErrors()) {
+            errorResponse.addValidationError(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        return ResponseEntity.unprocessableEntity().body(errorResponse);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleUserNotFoundException(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    @ExceptionHandler(ObjectNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleObjectNotFoundException(ObjectNotFoundException objectNotFoundException, WebRequest request) {
+        return buildErrorResponse(
+                objectNotFoundException,
+                "Object not Found!",
+                HttpStatus.NOT_FOUND,
+                request);
     }
 
-    public ResponseEntity<String> DataBindingViolationException(DataIntegrityViolationException ex){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Object> handleAllUncaughtException(
+            Exception exception,
+            WebRequest request) {
+        return buildErrorResponse(
+                exception,
+                "Unknown error occurred",
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                request);
     }
+
+    @ExceptionHandler(DataBindingViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<Object> handleDataBindingViolationException(
+            DataBindingViolationException dataBindingViolationException,
+            WebRequest request) {
+        return buildErrorResponse(
+                dataBindingViolationException,
+                "Cannot delete, entity has relationships!",
+                HttpStatus.CONFLICT,
+                request);
+    }
+
+    private ResponseEntity<Object> buildErrorResponse(
+            Exception exception,
+            HttpStatus httpStatus,
+            WebRequest request) {
+        return buildErrorResponse(exception, exception.getMessage(), httpStatus, request);
+    }
+
+    private ResponseEntity<Object> buildErrorResponse(
+            Exception exception,
+            String message,
+            HttpStatus httpStatus,
+            WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(httpStatus.value(), message);
+        /*
+        if (this.printStackTrace) {
+            errorResponse.setStackTrace(ExceptionUtils.getStackTrace(exception));
+        }*/
+        return ResponseEntity.status(httpStatus).body(errorResponse);
+    }
+
+
 }

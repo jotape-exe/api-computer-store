@@ -1,12 +1,10 @@
 package com.computershop.app.service.impl;
 
-import com.computershop.app.model.Order;
 import com.computershop.app.model.OrderProduct;
-import com.computershop.app.model.dto.OrderDTO;
 import com.computershop.app.model.dto.OrderProductDTO;
-import com.computershop.app.model.dto.request.OrderRequest;
 import com.computershop.app.repository.OrderProductRepository;
-import com.computershop.app.repository.OrderRepositoy;
+import com.computershop.app.service.exceptions.DataBindingViolationException;
+import com.computershop.app.service.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +26,7 @@ public class OrderProductService {
 
     public OrderProduct findById(Long id) {
         Optional<OrderProduct> orderProduct = this.orderProductRepository.findById(id);
-        return orderProduct.orElseThrow(()-> new RuntimeException("Order item not found ID -> ("+id+")"));
+        return orderProduct.orElseThrow(()-> new ObjectNotFoundException("Product Not Found! ID -> "+id));
     }
 
     public ArrayList<OrderProduct> findAll() {
@@ -46,7 +44,7 @@ public class OrderProductService {
         try {
             this.orderProductRepository.deleteById(id);
         } catch (Exception ex){
-            throw new RuntimeException("Order item not found ID -> ("+id+")");
+            throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
     }
 

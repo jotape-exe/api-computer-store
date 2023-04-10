@@ -42,7 +42,7 @@ public class ProductController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Void> updateProduct(@RequestBody @Valid ProductDTO productDTO, @PathVariable Long id){
         productDTO.setId(id);
         Product product = this.productService.fromDTO(productDTO);
@@ -51,7 +51,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) throws RuntimeException{
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         this.productService.delete(id);
         return ResponseEntity.noContent().build();
     }

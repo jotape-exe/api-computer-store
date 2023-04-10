@@ -4,7 +4,10 @@ import com.computershop.app.model.Product;
 import com.computershop.app.model.dto.ProductDTO;
 import com.computershop.app.model.dto.request.ProductRequest;
 import com.computershop.app.repository.ProductRepository;
+import com.computershop.app.service.ConvertService;
 import com.computershop.app.service.CrudService;
+import com.computershop.app.service.exceptions.DataBindingViolationException;
+import com.computershop.app.service.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class ProductService implements CrudService<Product> {
+public class ProductService implements CrudService<Product>, ConvertService<Product, ProductDTO, ProductRequest> {
 
     @Autowired
     private ProductRepository productRepository;
@@ -22,7 +25,7 @@ public class ProductService implements CrudService<Product> {
     @Override
     public Product findById(Long id) {
         Optional<Product> product = this.productRepository.findById(id);
-        return product.orElseThrow(()-> new RuntimeException("Product not found ID -> ("+id+")"));
+        return product.orElseThrow(()-> new ObjectNotFoundException("Product Not Found! ID -> "+id));
     }
 
     @Override
@@ -56,10 +59,11 @@ public class ProductService implements CrudService<Product> {
         try {
             this.productRepository.deleteById(id);
         } catch (Exception ex){
-           throw new RuntimeException("Product not found ID -> ("+id+")");
+            throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
     }
 
+    @Override
     public Product fromDTO(@Valid ProductDTO productDTO){
         Product product = new Product();
 
@@ -73,6 +77,7 @@ public class ProductService implements CrudService<Product> {
         return product;
     }
 
+    @Override
     public Product fromRequest(@Valid ProductRequest productRequest){
         Product product = new Product();
         product.setId(productRequest.getId());

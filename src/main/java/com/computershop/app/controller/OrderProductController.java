@@ -41,7 +41,7 @@ public class OrderProductController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) throws RuntimeException{
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id){
         this.orderProductService.delete(id);
         return ResponseEntity.noContent().build();
     }

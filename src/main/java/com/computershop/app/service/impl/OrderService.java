@@ -1,10 +1,16 @@
 package com.computershop.app.service.impl;
 
 import com.computershop.app.model.Order;
+import com.computershop.app.model.Product;
 import com.computershop.app.model.dto.OrderDTO;
+import com.computershop.app.model.dto.ProductDTO;
 import com.computershop.app.model.dto.request.OrderRequest;
+import com.computershop.app.model.dto.request.ProductRequest;
 import com.computershop.app.repository.OrderRepositoy;
+import com.computershop.app.service.ConvertService;
 import com.computershop.app.service.CrudService;
+import com.computershop.app.service.exceptions.DataBindingViolationException;
+import com.computershop.app.service.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class OrderService implements CrudService<Order> {
+public class OrderService implements CrudService<Order>, ConvertService<Order, OrderDTO, OrderRequest> {
 
     @Autowired
     private OrderRepositoy orderRepositoy;
@@ -24,7 +30,7 @@ public class OrderService implements CrudService<Order> {
     @Override
     public Order findById(Long id) {
         Optional<Order> order = this.orderRepositoy.findById(id);
-        return order.orElseThrow(()-> new RuntimeException("Order not found ID -> ("+id+")"));
+        return order.orElseThrow(()-> new ObjectNotFoundException("Product Not Found! ID -> "+id));
     }
 
     @Override
@@ -52,10 +58,11 @@ public class OrderService implements CrudService<Order> {
         try {
             this.orderRepositoy.deleteById(id);
         } catch (Exception ex){
-            throw new RuntimeException("Order not found ID -> ("+id+")");
+            throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
     }
 
+    @Override
     public Order fromDTO(@Valid OrderDTO orderDTO){
         Order order = new Order();
         order.setId(orderDTO.getId());
@@ -66,6 +73,7 @@ public class OrderService implements CrudService<Order> {
         return order;
     }
 
+    @Override
     public Order fromRequest(@Valid OrderRequest orderRequest){
         Order order = new Order();
         order.setId(orderRequest.getId());

@@ -1,7 +1,6 @@
 package com.computershop.app.model;
 
 import jakarta.persistence.*;
-import org.aspectj.weaver.ast.Or;
 
 @Entity
 @Table(name = "order_product")

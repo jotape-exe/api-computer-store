@@ -1,6 +1,5 @@
 package com.computershop.app.model.dto;
 
-import com.computershop.app.model.Address;
 import com.computershop.app.model.dto.request.AddressRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
