@@ -1,6 +1,7 @@
 package com.computershop.app.model.dto;
 
 import com.computershop.app.model.Address;
+import com.computershop.app.model.dto.request.AddressRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,7 +18,7 @@ public class ClientDTO {
     private String phone;
 
     @NotNull
-    private Address address;
+    private AddressRequest addressRequest;
 
     public Long getId() {
         return Id;
@@ -43,11 +44,11 @@ public class ClientDTO {
         this.phone = phone;
     }
 
-    public Address getAddress() {
-        return address;
+    public AddressRequest getAddressRequest() {
+        return addressRequest;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressRequest(AddressRequest addressRequest) {
+        this.addressRequest = addressRequest;
     }
 }
