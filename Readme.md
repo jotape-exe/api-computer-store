@@ -1,5 +1,6 @@
-# Spring Boot API Usage Guide for Computer Shop
-
+<p align="center">
+  <h1>Spring Boot API Usage Guide for Computer Shop</h1>
+</p>
 <p align="center">
 <a alt="Java">
     <img src="https://img.shields.io/badge/Java-v17-red.svg" />
