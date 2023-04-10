@@ -22,7 +22,7 @@ public class OrderService implements CrudService<Order>, ConvertService<Order, O
     private OrderRepositoy orderRepositoy;
 
     @Autowired
-    private ClientService clientService;
+    private CostumerService costumerService;
 
     @Override
     public Order findById(Long id) {
@@ -65,7 +65,7 @@ public class OrderService implements CrudService<Order>, ConvertService<Order, O
         order.setId(orderDTO.getId());
         order.setStatusOrder(orderDTO.getStatusOrder());
         order.setCreationDate(orderDTO.getCreationDate());
-        order.setClient(this.clientService.fromRequest(orderDTO.getClientRequest()));
+        order.setCostumer(this.costumerService.fromRequest(orderDTO.getCostumerRequest()));
 
         return order;
     }

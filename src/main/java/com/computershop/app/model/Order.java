@@ -22,8 +22,8 @@ public class Order {
     private StatusOrder statusOrder;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
-    private Client client;
+    @JoinColumn(name = "costumer_id", referencedColumnName = "id")
+    private Costumer costumer;
 
     public Long getId() {
         return id;
@@ -49,12 +49,12 @@ public class Order {
         this.statusOrder = statusOrder;
     }
 
-    public Client getClient() {
-        return client;
+    public Costumer getCostumer() {
+        return costumer;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setCostumer(Costumer costumer) {
+        this.costumer = costumer;
     }
 }
 

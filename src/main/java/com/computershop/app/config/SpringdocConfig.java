@@ -14,6 +14,6 @@ public class SpringdocConfig {
     public OpenAPI baseOpenAPI() {
 
         return new OpenAPI()
-                .info(new Info().title("Computer Shop API").version("1.0.0").description("Spring doc"));
+                .info(new Info().title("Computer Shop API").version("1.0.0").description("API to control a computer store with web service integration: Via CEP"));
     }
 }

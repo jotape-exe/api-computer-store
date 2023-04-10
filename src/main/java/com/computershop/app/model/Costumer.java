@@ -7,9 +7,9 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 
-@Table(name = "client")
+@Table(name = "costumer")
 @Entity
-public class Client implements Serializable {
+public class Costumer implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -27,7 +27,7 @@ public class Client implements Serializable {
     private String phone;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "address_client", referencedColumnName = "cep")
+    @JoinColumn(name = "address_costumer", referencedColumnName = "cep")
     @NotNull
     private Address address;
 

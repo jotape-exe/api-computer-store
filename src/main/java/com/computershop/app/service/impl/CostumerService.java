@@ -1,15 +1,12 @@
 package com.computershop.app.service.impl;
 
 import com.computershop.app.model.Address;
-import com.computershop.app.model.Client;
-import com.computershop.app.model.Order;
-import com.computershop.app.model.dto.ClientDTO;
-import com.computershop.app.model.dto.OrderDTO;
+import com.computershop.app.model.Costumer;
+import com.computershop.app.model.dto.CostumerDTO;
 import com.computershop.app.model.dto.request.AddressRequest;
-import com.computershop.app.model.dto.request.ClientRequest;
-import com.computershop.app.model.dto.request.OrderRequest;
+import com.computershop.app.model.dto.request.CostumerRequest;
 import com.computershop.app.repository.AddressRepository;
-import com.computershop.app.repository.ClientRepository;
+import com.computershop.app.repository.CostumerRepository;
 import com.computershop.app.service.ConvertService;
 import com.computershop.app.service.CrudService;
 import com.computershop.app.service.ViaCepService;
@@ -25,10 +22,10 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class ClientService implements CrudService<Client>, ConvertService<Client, ClientDTO, ClientRequest> {
+public class CostumerService implements CrudService<Costumer>, ConvertService<Costumer, CostumerDTO, CostumerRequest> {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private CostumerRepository costumerRepository;
 
     @Autowired
     private ViaCepService viaCepService;
@@ -36,71 +33,71 @@ public class ClientService implements CrudService<Client>, ConvertService<Client
     @Autowired
     private AddressRepository addressRepository;
     @Override
-    public Client findById(Long id) {
-        Optional<Client> client = this.clientRepository.findById(id);
+    public Costumer findById(Long id) {
+        Optional<Costumer> client = this.costumerRepository.findById(id);
         return client.orElseThrow(() -> new ObjectNotFoundException("Product Not Found! ID -> "+id));
     }
 
     @Override
-    public ArrayList<Client> findAll() {
-        return (ArrayList<Client>) this.clientRepository.findAll();
+    public ArrayList<Costumer> findAll() {
+        return (ArrayList<Costumer>) this.costumerRepository.findAll();
     }
 
     @Override
     @Transactional //Funciona se remover
-    public Client create(Client client) {
-        client.setId(null);
-        return this.saveClientCep(client);
+    public Costumer create(Costumer costumer) {
+        costumer.setId(null);
+        return this.saveClientCep(costumer);
     }
     @Override
     @Transactional
-    public Client update(Client client) {
-        Client newClient = findById(client.getId());
-        newClient.setName(client.getName());
-        newClient.setPhone(client.getPhone());
-        newClient.setAddress(client.getAddress());
+    public Costumer update(Costumer costumer) {
+        Costumer newCostumer = findById(costumer.getId());
+        newCostumer.setName(costumer.getName());
+        newCostumer.setPhone(costumer.getPhone());
+        newCostumer.setAddress(costumer.getAddress());
 
-        return this.saveClientCep(newClient);
+        return this.saveClientCep(newCostumer);
     }
 
     @Override
     public void delete(Long id) {
         try {
-            this.clientRepository.deleteById(id);
+            this.costumerRepository.deleteById(id);
         } catch (Exception ex){
             throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
     }
 
-    private Client saveClientCep(Client client){
+    private Costumer saveClientCep(Costumer costumer){
         CompletableFuture<Address> addressFuture = CompletableFuture.supplyAsync(()->{
-            String cep = client.getAddress().getCep();
+            String cep = costumer.getAddress().getCep();
             return addressRepository.findById(cep).orElseGet(()->{
                 Address newAddress = viaCepService.consultarCep(cep);
                 addressRepository.save(newAddress);
                 return newAddress;
             });
         });
-        client.setAddress(addressFuture.join());
-        return this.clientRepository.save(client);
+        costumer.setAddress(addressFuture.join());
+        return this.costumerRepository.save(costumer);
     }
 
 
     @Override
-    public Client fromDTO(@Valid ClientDTO clientDTO){
-        Client client = new Client();
-        client.setId(clientDTO.getId());
-        client.setName(clientDTO.getName());
-        client.setPhone(clientDTO.getPhone());
-        client.setAddress(fromRequest(clientDTO.getAddressRequest()));
-        return client;
+    public Costumer fromDTO(@Valid CostumerDTO costumerDTO){
+        Costumer costumer = new Costumer();
+        costumer.setId(costumerDTO.getId());
+        costumer.setName(costumerDTO.getName());
+        costumer.setPhone(costumerDTO.getPhone());
+        costumer.setAddress(fromRequest(costumerDTO.getAddressRequest()));
+        return costumer;
     }
 
     @Override
-    public Client fromRequest(@Valid ClientRequest clientRequest){
-        Client client = new Client();
-        client.setId(clientRequest.getId());
-        return client;
+    public Costumer fromRequest(@Valid CostumerRequest costumerRequest){
+        Costumer costumer = new Costumer();
+        costumer.setId(costumerRequest.getId());
+        return costumer;
     }
 
     public Address fromRequest(@Valid AddressRequest addressRequest){

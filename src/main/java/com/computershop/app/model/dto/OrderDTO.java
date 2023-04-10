@@ -1,7 +1,7 @@
 package com.computershop.app.model.dto;
 
 import com.computershop.app.enums.StatusOrder;
-import com.computershop.app.model.dto.request.ClientRequest;
+import com.computershop.app.model.dto.request.CostumerRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,7 +16,7 @@ public class OrderDTO {
     @NotBlank
     private StatusOrder statusOrder;
     @NotNull
-    private ClientRequest clientRequest;
+    private CostumerRequest costumerRequest;
 
     public Long getId() {
         return id;
@@ -42,11 +42,11 @@ public class OrderDTO {
         this.statusOrder = statusOrder;
     }
 
-    public ClientRequest getClientRequest() {
-        return clientRequest;
+    public CostumerRequest getCostumerRequest() {
+        return costumerRequest;
     }
 
-    public void setClientRequest(ClientRequest clientRequest) {
-        this.clientRequest = clientRequest;
+    public void setCostumerRequest(CostumerRequest costumerRequest) {
+        this.costumerRequest = costumerRequest;
     }
 }
