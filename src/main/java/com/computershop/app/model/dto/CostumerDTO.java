@@ -1,11 +1,14 @@
 package com.computershop.app.model.dto;
 
 import com.computershop.app.model.dto.request.AddressRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class CostumerDTO {
+
+    @JsonIgnore
     private Long Id;
 
     @NotBlank
