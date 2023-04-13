@@ -14,7 +14,7 @@
 
 This document provides instructions on how to use the Spring Boot API to register customers, products, and orders in a computer store. The API was developed in Java and also makes requests to the external API https://viacep.com.br to register a customer with an existing Brazilian address. It is also worth noting that the MySQL database. Additionally, the API has documentation for the Swagger-ui interface, which can be used to test endpoints.
 
-Example of a valid brazilian CEP code request:
+Example of a valid brazilian CEP(Zip Code) code request:
 ```
 {
   "name": "Joao",
