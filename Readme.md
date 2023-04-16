@@ -8,7 +8,7 @@
         <img src="https://img.shields.io/badge/Spring%20Boot-v3.0.5-brightgreen.svg" />
 </a>
 <a alt="Gradle">
-    <img src="https://img.shields.io/badge/Gradle-v8.0.2-blue.svg" />
+    <img src="https://img.shields.io/badge/Gradle-v7.6.1-blue.svg" />
 </a>
 <p>
 
