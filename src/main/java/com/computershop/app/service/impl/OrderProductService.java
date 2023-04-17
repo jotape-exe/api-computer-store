@@ -41,8 +41,9 @@ public class OrderProductService {
 
 
     public void delete(Long id) {
+        OrderProduct orderProduct = this.findById(id);
         try {
-            this.orderProductRepository.deleteById(id);
+            this.orderProductRepository.delete(orderProduct);
         } catch (Exception ex){
             throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }

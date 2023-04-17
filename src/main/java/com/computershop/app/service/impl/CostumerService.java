@@ -62,8 +62,9 @@ public class CostumerService implements CrudService<Costumer>, ConvertService<Co
 
     @Override
     public void delete(Long id) {
+        Costumer costumer = this.findById(id);
         try {
-            this.costumerRepository.deleteById(id);
+            this.costumerRepository.delete(costumer);
         } catch (Exception ex){
             throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }

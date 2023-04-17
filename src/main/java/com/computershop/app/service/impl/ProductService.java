@@ -56,8 +56,9 @@ public class ProductService implements CrudService<Product>, ConvertService<Prod
 
     @Override
     public void delete(Long id) {
+        Product product = this.findById(id);
         try {
-            this.productRepository.deleteById(id);
+            this.productRepository.delete(product);
         } catch (Exception ex){
             throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }

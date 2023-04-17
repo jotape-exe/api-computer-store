@@ -9,6 +9,7 @@ import com.computershop.app.service.CrudService;
 import com.computershop.app.service.exceptions.DataBindingViolationException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,8 +53,9 @@ public class OrderService implements CrudService<Order>, ConvertService<Order, O
 
     @Override
     public void delete(Long id) {
+        Order order = this.findById(id);
         try {
-            this.orderRepositoy.deleteById(id);
+            this.orderRepositoy.delete(order);
         } catch (Exception ex){
             throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
