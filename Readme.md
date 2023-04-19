@@ -71,7 +71,7 @@ and voilá! You will have access to Swagger with the fully documented api. From 
 
 ### Relationships between entities
 
-- Client/ Address(One to Many)
+- Customer/ Address(One to Many)
 - Order/ Product(Many to Many) 
 
 To follow the relational model, _Many to Many_ relationships cannot exist. So the **OrderProduct** entity solves the problem
