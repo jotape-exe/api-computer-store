@@ -63,7 +63,7 @@ After running the application, go to
 ```
 http://localhost:8080/swagger-ui/index.html#/ 
 ```
-and voilá! You will have access to Swagger with the fully documented api. From Schemas to the endpoints of each controller, Swagger does it without you having to use a web costumer.
+and voilá! You will have access to Swagger with the fully documented api. From Schemas to the endpoints of each controller, Swagger does it without you having to use a web customer.
 
 ## Database Modeling
 

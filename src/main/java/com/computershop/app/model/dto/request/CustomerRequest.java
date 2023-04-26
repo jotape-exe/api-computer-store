@@ -2,7 +2,7 @@ package com.computershop.app.model.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 
-public class CostumerRequest {
+public class CustomerRequest {
     @NotNull
     private Long Id;
 

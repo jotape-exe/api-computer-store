@@ -1,7 +1,7 @@
 package com.computershop.app.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.Serial;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Table(name = "costumer")
 @Entity
-public class Costumer implements Serializable {
+public class Customer implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -19,11 +19,11 @@ public class Costumer implements Serializable {
     private Long Id;
 
     @Column(name = "name")
-    @NotBlank
+    @NotEmpty
     private String name;
 
     @Column(name = "phone")
-    @NotBlank
+    @NotEmpty
     private String phone;
 
     @ManyToOne(cascade = CascadeType.MERGE)

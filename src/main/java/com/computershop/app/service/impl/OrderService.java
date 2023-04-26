@@ -9,7 +9,6 @@ import com.computershop.app.service.CrudService;
 import com.computershop.app.service.exceptions.DataBindingViolationException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
 import jakarta.validation.Valid;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,7 @@ public class OrderService implements CrudService<Order>, ConvertService<Order, O
     private OrderRepositoy orderRepositoy;
 
     @Autowired
-    private CostumerService costumerService;
+    private CustomerService customerService;
 
     @Override
     public Order findById(Long id) {
@@ -67,7 +66,7 @@ public class OrderService implements CrudService<Order>, ConvertService<Order, O
         order.setId(orderDTO.getId());
         order.setStatusOrder(orderDTO.getStatusOrder());
         order.setCreationDate(orderDTO.getCreationDate());
-        order.setCostumer(this.costumerService.fromRequest(orderDTO.getCostumerRequest()));
+        order.setCostumer(this.customerService.fromRequest(orderDTO.getCostumerRequest()));
 
         return order;
     }

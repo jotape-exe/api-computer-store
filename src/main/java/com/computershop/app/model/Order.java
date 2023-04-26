@@ -23,7 +23,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "costumer_id", referencedColumnName = "id")
-    private Costumer costumer;
+    private Customer customer;
 
     public Long getId() {
         return id;
@@ -49,12 +49,12 @@ public class Order {
         this.statusOrder = statusOrder;
     }
 
-    public Costumer getCostumer() {
-        return costumer;
+    public Customer getCostumer() {
+        return customer;
     }
 
-    public void setCostumer(Costumer costumer) {
-        this.costumer = costumer;
+    public void setCostumer(Customer customer) {
+        this.customer = customer;
     }
 }
 
