@@ -72,4 +72,17 @@ public class Product {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+    public Product(Long id, String name, String description, String manufacturer, Double value, int amount) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.manufacturer = manufacturer;
+        this.value = value;
+        this.amount = amount;
+    }
+
+    public Product(){
+
+    }
 }
