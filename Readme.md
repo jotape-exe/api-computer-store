@@ -67,7 +67,7 @@ and voilá! You will have access to Swagger with the fully documented api. From 
 
 ## Database Modeling
 
-<img src="DatabaseModeling.png">
+<img src="img/DatabaseModeling.png">
 
 ### Relationships between entities
 
@@ -81,4 +81,4 @@ To follow the relational model, _Many to Many_ relationships cannot exist. So th
 
 ## Spring Boot Architecture
 
-<img src="springboot.png">
+<img src="img/springboot.png">
