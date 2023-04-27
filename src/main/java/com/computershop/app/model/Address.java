@@ -82,4 +82,22 @@ public class Address {
     public void setDdd(String ddd) {
         this.ddd = ddd;
     }
+
+    public Address(String cep) {
+        this.cep = cep;
+    }
+
+    public Address(String cep, String logradouro, String complemento, String bairro, String localidade, String uf, String ddd) {
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.localidade = localidade;
+        this.uf = uf;
+        this.ddd = ddd;
+    }
+
+    public Address(){
+
+    }
 }

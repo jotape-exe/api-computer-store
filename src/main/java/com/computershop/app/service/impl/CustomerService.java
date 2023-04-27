@@ -2,17 +2,12 @@ package com.computershop.app.service.impl;
 
 import com.computershop.app.model.Address;
 import com.computershop.app.model.Customer;
-import com.computershop.app.model.dto.CustomerDTO;
-import com.computershop.app.model.dto.request.AddressRequest;
-import com.computershop.app.model.dto.request.CustomerRequest;
 import com.computershop.app.repository.AddressRepository;
 import com.computershop.app.repository.CostumerRepository;
-import com.computershop.app.service.ConvertService;
 import com.computershop.app.service.CrudService;
 import com.computershop.app.service.ViaCepService;
 import com.computershop.app.service.exceptions.DataBindingViolationException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +17,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class CustomerService implements CrudService<Customer>, ConvertService<Customer, CustomerDTO, CustomerRequest> {
+public class CustomerService implements CrudService<Customer> /*,ConvertService<Customer, CustomerDTO, CustomerRequest>*/ {
 
     @Autowired
     private CostumerRepository costumerRepository;
@@ -46,7 +41,6 @@ public class CustomerService implements CrudService<Customer>, ConvertService<Cu
     @Override
     @Transactional //Funciona se remover
     public Customer create(Customer customer) {
-        customer.setId(null);
         return this.saveClientCep(customer);
     }
     @Override
@@ -82,12 +76,11 @@ public class CustomerService implements CrudService<Customer>, ConvertService<Cu
         customer.setAddress(addressFuture.join());
         return this.costumerRepository.save(customer);
     }
-
-
+/*
     @Override
     public Customer fromDTO(@Valid CustomerDTO customerDTO){
         Customer customer = new Customer();
-        customer.setId(customerDTO.getId());
+        customer.setId(customerDTO.toEntity().getId());
         customer.setName(customerDTO.getName());
         customer.setPhone(customerDTO.getPhone());
         customer.setAddress(fromRequest(customerDTO.getAddressRequest()));
@@ -101,12 +94,9 @@ public class CustomerService implements CrudService<Customer>, ConvertService<Cu
         return customer;
     }
 
-    public Address fromRequest(@Valid AddressRequest addressRequest){
+    public Address fromRequest(@Valid AddressDTO addressDTO){
         Address address = new Address();
-        address.setCep(addressRequest.getCep());
+        address.setCep(addressDTO.getCep());
         return address;
-    }
-
-
-
+    }*/
 }

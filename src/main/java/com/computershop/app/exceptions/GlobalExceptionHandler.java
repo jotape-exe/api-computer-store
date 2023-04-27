@@ -46,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.NOT_FOUND,
                 request);
     }
-
+/*
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleAllUncaughtException(
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "Unknown error occurred",
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 request);
-    }
+    }*/
 
     @ExceptionHandler(DataBindingViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)

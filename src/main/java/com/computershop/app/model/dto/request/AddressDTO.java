@@ -4,7 +4,7 @@ import com.computershop.app.model.Address;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class AddressRequest {
+public class AddressDTO {
 
     @NotBlank
     @Size(max = 8)

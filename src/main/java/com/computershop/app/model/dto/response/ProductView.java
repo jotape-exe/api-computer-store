@@ -1,28 +1,21 @@
-package com.computershop.app.model;
+package com.computershop.app.model.dto.response;
 
-import jakarta.persistence.*;
+import com.computershop.app.model.Product;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "product")
-public class Product {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductView {
     private Long id;
 
-    @Column(name = "product_name")
     private String name;
 
-    @Column(name = "product_desc")
     private String description;
 
-    @Column(name = "manufacturer")
     private String manufacturer;
 
-    @Column(name = "value")
     private Double value;
 
-    @Column(name = "amout")
     private int amount;
 
     public Long getId() {
@@ -72,8 +65,7 @@ public class Product {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-
-    public Product(Long id, String name, String description, String manufacturer, Double value, int amount) {
+    public ProductView(Long id, String name, String description, String manufacturer, Double value, int amount) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -82,15 +74,12 @@ public class Product {
         this.amount = amount;
     }
 
-    public Product(String name, String description, String manufacturer, Double value, int amount) {
-        this.name = name;
-        this.description = description;
-        this.manufacturer = manufacturer;
-        this.value = value;
-        this.amount = amount;
-    }
-
-    public Product(){
-
+    public ProductView(Product product){
+        this.id = product.getId();
+        this.name = product.getName();
+        this.description = product.getDescription();
+        this.manufacturer = product.getManufacturer();
+        this.value = product.getValue();
+        this.amount = product.getAmount();
     }
 }

@@ -1,7 +1,7 @@
 package com.computershop.app.model.dto;
 
 import com.computershop.app.enums.StatusOrder;
-import com.computershop.app.model.dto.request.CustomerRequest;
+import com.computershop.app.model.Order;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,22 +9,12 @@ import java.util.Date;
 
 public class OrderDTO {
 
-    private Long id;
-
     @NotNull
     private Date creationDate;
     @NotBlank
     private StatusOrder statusOrder;
     @NotNull
-    private CustomerRequest customerRequest;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private CustomerDTO customer;
 
     public Date getCreationDate() {
         return creationDate;
@@ -42,11 +32,15 @@ public class OrderDTO {
         this.statusOrder = statusOrder;
     }
 
-    public CustomerRequest getCostumerRequest() {
-        return customerRequest;
+    public CustomerDTO getCustomer() {
+        return customer;
     }
 
-    public void setCostumerRequest(CustomerRequest customerRequest) {
-        this.customerRequest = customerRequest;
+    public void setCustomer(CustomerDTO customer) {
+        this.customer = customer;
+    }
+
+    public Order toEntity(){
+        return new Order(this.creationDate, this.statusOrder, this.customer.toEntity());
     }
 }

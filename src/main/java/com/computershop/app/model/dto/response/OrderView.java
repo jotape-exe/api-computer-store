@@ -1,28 +1,15 @@
-package com.computershop.app.model;
+package com.computershop.app.model.dto.response;
 
 import com.computershop.app.enums.StatusOrder;
-import jakarta.persistence.*;
+import com.computershop.app.model.Customer;
+import com.computershop.app.model.Order;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "orders")
-public class Order {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderView {
     private Long id;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation", columnDefinition = "DATE")
     private Date creationDate;
-
-    @Column(name = "status", columnDefinition = "VARCHAR(20)")
-    @Enumerated(EnumType.STRING)
     private StatusOrder statusOrder;
-
-    @ManyToOne
-    @JoinColumn(name = "costumer_id", referencedColumnName = "id")
     private Customer customer;
 
     public Long getId() {
@@ -49,28 +36,25 @@ public class Order {
         this.statusOrder = statusOrder;
     }
 
-    public Customer getCostumer() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCostumer(Customer customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-    public Order() {
-    }
-
-    public Order(Long id, Date creationDate, StatusOrder statusOrder, Customer customer) {
+    public OrderView(Long id, Date creationDate, StatusOrder statusOrder, Customer customer) {
         this.id = id;
         this.creationDate = creationDate;
         this.statusOrder = statusOrder;
         this.customer = customer;
     }
 
-    public Order(Date creationDate, StatusOrder statusOrder, Customer customer) {
-        this.creationDate = creationDate;
-        this.statusOrder = statusOrder;
-        this.customer = customer;
+    public OrderView(Order order){
+        this.id = order.getId();
+        this.statusOrder = order.getStatusOrder();
+        this.creationDate = order.getCreationDate();
+        this.customer = order.getCostumer();
     }
 }
-

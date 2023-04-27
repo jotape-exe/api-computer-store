@@ -62,4 +62,21 @@ public class Customer implements Serializable {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+    public Customer(String name, String phone, Address address) {
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+    }
+
+    public Customer(Long id, String name, String phone, Address address) {
+        Id = id;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+    }
+
+    public Customer(){
+
+    }
 }

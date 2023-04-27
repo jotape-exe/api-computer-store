@@ -48,7 +48,7 @@ public class OrderProductService {
             throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
     }
-
+/*
     public OrderProduct fromDTO(@Valid OrderProductDTO orderProductDTO){
         OrderProduct orderProduct = new OrderProduct();
         orderProduct.setId(orderProductDTO.getId());
@@ -56,5 +56,5 @@ public class OrderProductService {
         orderProduct.setOrder(this.orderService.fromRequest(orderProductDTO.getOrderRequest()));
 
         return orderProduct;
-    }
+    }*/
 }

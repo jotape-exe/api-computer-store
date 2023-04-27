@@ -1,14 +1,12 @@
 package com.computershop.app.model.dto;
 
+import com.computershop.app.model.Product;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class ProductDTO {
-
-    private Long id;
-
-    @NotBlank
+        @NotBlank
     private String name;
 
     @NotBlank
@@ -24,14 +22,6 @@ public class ProductDTO {
     @NotNull
     @Min(value = 1)
     private int amount;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -71,5 +61,8 @@ public class ProductDTO {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+    public Product toEntity(){
+        return new Product(this.name, this.description, this.manufacturer, this.value, this.amount );
     }
 }

@@ -1,14 +1,10 @@
 package com.computershop.app.service.impl;
 
 import com.computershop.app.model.Order;
-import com.computershop.app.model.dto.OrderDTO;
-import com.computershop.app.model.dto.request.OrderRequest;
 import com.computershop.app.repository.OrderRepositoy;
-import com.computershop.app.service.ConvertService;
 import com.computershop.app.service.CrudService;
 import com.computershop.app.service.exceptions.DataBindingViolationException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class OrderService implements CrudService<Order>, ConvertService<Order, OrderDTO, OrderRequest> {
+public class OrderService implements CrudService<Order> /*,ConvertService<Order, OrderDTO, OrderRequest>*/ {
 
     @Autowired
     private OrderRepositoy orderRepositoy;
@@ -59,7 +55,7 @@ public class OrderService implements CrudService<Order>, ConvertService<Order, O
             throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
     }
-
+/*
     @Override
     public Order fromDTO(@Valid OrderDTO orderDTO){
         Order order = new Order();
@@ -76,5 +72,5 @@ public class OrderService implements CrudService<Order>, ConvertService<Order, O
         Order order = new Order();
         order.setId(orderRequest.getId());
         return order;
-    }
+    }*/
 }

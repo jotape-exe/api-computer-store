@@ -41,4 +41,18 @@ public class OrderProduct {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+    public OrderProduct() {
+    }
+
+    public OrderProduct(Long id, Order order, Product product) {
+        this.id = id;
+        this.order = order;
+        this.product = product;
+    }
+
+    public OrderProduct(Order order, Product product) {
+        this.order = order;
+        this.product = product;
+    }
 }
