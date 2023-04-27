@@ -1,8 +1,8 @@
 package com.computershop.app.controller;
 
 import com.computershop.app.model.Order;
-import com.computershop.app.model.dto.OrderDTO;
-import com.computershop.app.model.dto.OrderUpdateDTO;
+import com.computershop.app.model.dto.request.OrderDTO;
+import com.computershop.app.model.dto.request.OrderUpdateDTO;
 import com.computershop.app.model.dto.response.OrderView;
 import com.computershop.app.service.impl.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +38,17 @@ public class OrderController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<OrderView> newOrder(@RequestBody OrderDTO orderDTO){
+    public ResponseEntity<Void> newOrder(@RequestBody OrderDTO orderDTO){
         Order order = this.orderService.create(orderDTO.toEntity());;
-        return ResponseEntity.status(HttpStatus.CREATED).body(new OrderView(order));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<OrderView> updateOrder(@RequestBody OrderUpdateDTO orderUpdateDTO, @PathVariable Long id){
+    public ResponseEntity<Void> updateOrder(@RequestBody OrderUpdateDTO orderUpdateDTO, @PathVariable Long id){
         Order order = this.orderService.findById(id);
-        Order orderToUpdate = orderUpdateDTO.toENtity(order);
-        Order orderUpdated = this.orderService.update(orderToUpdate);
-        return ResponseEntity.ok().body(new OrderView(orderUpdated));
+        Order orderToUpdate = orderUpdateDTO.toEntity(order);
+        this.orderService.update(orderToUpdate);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{id}")

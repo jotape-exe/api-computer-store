@@ -1,17 +1,18 @@
 package com.computershop.app.controller;
 
 import com.computershop.app.model.Product;
-import com.computershop.app.model.dto.ProductDTO;
+import com.computershop.app.model.dto.request.ProductDTO;
+import com.computershop.app.model.dto.response.ProductView;
 import com.computershop.app.service.impl.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -22,31 +23,31 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id){
+    public ResponseEntity<ProductView> getProductById(@PathVariable Long id){
         Product product = this.productService.findById(id);
-        return ResponseEntity.ok().body(product);
+        return ResponseEntity.ok().body(new ProductView(product));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Product>> getAllProducts(){
-        List<Product> products = this.productService.findAll();
+    public ResponseEntity<List<ProductView>> getAllProducts(){
+        List<ProductView> products = this.productService.findAll()
+                .stream()
+                .map(ProductView::new)
+                .collect(Collectors.toList());
         return ResponseEntity.ok().body(products);
     }
 
     @PostMapping("/create")
     public ResponseEntity<Void> createProduct(@RequestBody @Valid ProductDTO productDTO){
-        Product product = this.productService.fromDTO(productDTO);
-        this.productService.create(product);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/id").buildAndExpand(product.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+        Product product = this.productService.create(productDTO.toEntity());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Void> updateProduct(@RequestBody @Valid ProductDTO productDTO, @PathVariable Long id){
-        productDTO.setId(id);
-        Product product = this.productService.fromDTO(productDTO);
-        product = this.productService.update(product);
+        Product product = this.productService.findById(id);
+        Product toUpdate = productDTO.toEntity(product);
+        this.productService.update(toUpdate);
         return ResponseEntity.ok().build();
     }
 

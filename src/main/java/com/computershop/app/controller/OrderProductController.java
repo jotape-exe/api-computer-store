@@ -1,16 +1,17 @@
 package com.computershop.app.controller;
 
 import com.computershop.app.model.OrderProduct;
-import com.computershop.app.model.dto.OrderProductDTO;
+import com.computershop.app.model.dto.request.OrderProductDTO;
+import com.computershop.app.model.dto.response.OrderProductView;
 import com.computershop.app.service.impl.OrderProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/item-order")
@@ -20,24 +21,24 @@ public class OrderProductController {
     private OrderProductService orderProductService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderProduct> getOrderProductById(@PathVariable Long id){
+    public ResponseEntity<OrderProductView> getOrderProductById(@PathVariable Long id){
         OrderProduct orderProduct = this.orderProductService.findById(id);
-        return ResponseEntity.ok().body(orderProduct);
+        return ResponseEntity.ok().body(new OrderProductView(orderProduct));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<OrderProduct>> getAllOrderProducts(){
-        List<OrderProduct> orderProducts = this.orderProductService.findAll();
+    public ResponseEntity<List<OrderProductView>> getAllOrderProducts(){
+        List<OrderProductView> orderProducts = this.orderProductService.findAll()
+                .stream()
+                .map(OrderProductView::new)
+                .collect(Collectors.toList());
         return ResponseEntity.ok().body(orderProducts);
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Void> newOrderproduct(@RequestBody OrderProductDTO orderProductDTO){
-        OrderProduct orderProduct = this.orderProductService.fromDTO(orderProductDTO);
-        this.orderProductService.create(orderProduct);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/id").buildAndExpand(orderProduct.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+    public ResponseEntity<Void> newOrderProduct(@RequestBody OrderProductDTO orderProductDTO){
+        OrderProduct orderProduct = this.orderProductService.create(orderProductDTO.toEntity());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/delete/{id}")

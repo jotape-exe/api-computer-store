@@ -1,7 +1,7 @@
 package com.computershop.app.controller;
 
 import com.computershop.app.model.Customer;
-import com.computershop.app.model.dto.CustomerDTO;
+import com.computershop.app.model.dto.request.CustomerDTO;
 import com.computershop.app.model.dto.response.CustomerView;
 import com.computershop.app.model.dto.response.CustomerViewList;
 import com.computershop.app.service.impl.CustomerService;
@@ -39,18 +39,18 @@ public class CustomerController {
     }
 
     @PostMapping("/new/")
-    public ResponseEntity<CustomerView> createClient(@RequestBody @Valid CustomerDTO customerDTO){
+    public ResponseEntity<Void> createClient(@RequestBody @Valid CustomerDTO customerDTO){
         Customer customer = this.customerService.create(customerDTO.toEntity());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CustomerView(customer));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //UPDATE????
     @PutMapping("/update/{id}")
-    public ResponseEntity<CustomerView> updateClient(@RequestBody @Valid CustomerDTO customerDTO, @PathVariable Long id){
+    public ResponseEntity<Void> updateClient(@RequestBody @Valid CustomerDTO customerDTO, @PathVariable Long id){
         Customer customer = this.customerService.findById(id);
-        Customer customerToUpdate = customerDTO.toEntity();
-        Customer customerUpdated = this.customerService.update(customerToUpdate);
-        return ResponseEntity.ok().body(new CustomerView(customerUpdated));
+        Customer customerToUpdate = customerDTO.toEntity(customer);
+        this.customerService.update(customerToUpdate);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{id}")
