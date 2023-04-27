@@ -17,29 +17,26 @@ This document provides instructions on how to use the Spring Boot API to registe
 Example of a valid brazilian CEP(Zip Code) code request:
 ```
 {
-  "name": "Joao",
-  "phone": "987654321",
-  "addressDTO": {
-    "cep": "01001001"
-  },
-  "id": 0
+  "name": "Slim Shady",
+  "phone": "11978651389",
+  "zipCode": "01001-000"
 }
 ```
 Response:
 ```
   {
-    "name": "Joao",
-    "phone": "987654321",
+    "id": 1,
+    "name": "Slim Shady",
+    "phone": "11978651389",
     "address": {
-      "cep": "01001-001",
+      "cep": "01001-000",
       "logradouro": "Praça da Sé",
-      "complemento": "lado par",
+      "complemento": "lado ímpar",
       "bairro": "Sé",
       "localidade": "São Paulo",
       "uf": "SP",
       "ddd": "11"
-    },
-    "id": 1
+    }
   }
 ```
 <hr>
