@@ -1,4 +1,4 @@
-package com.computershop.app.model.dto;
+package com.computershop.app.model.dto.request;
 
 import com.computershop.app.model.Product;
 import jakarta.validation.constraints.Min;
@@ -6,20 +6,20 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class ProductDTO {
-        @NotBlank
+    @NotBlank(message = "Invalid Input!")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Invalid Input!")
     private String description;
 
-    @NotBlank
+    @NotBlank(message = "Invalid Input!")
     private String manufacturer;
 
-    @NotNull
+    @NotNull(message = "Invalid Input!")
     @Min(value = 1)
     private Double value;
 
-    @NotNull
+    @NotNull(message = "Invalid Input!")
     @Min(value = 1)
     private int amount;
 
@@ -64,5 +64,14 @@ public class ProductDTO {
     }
     public Product toEntity(){
         return new Product(this.name, this.description, this.manufacturer, this.value, this.amount );
+    }
+
+    public Product toEntity(Product product){
+        product.setName(this.name);
+        product.setDescription(this.description);
+        product.setManufacturer(this.manufacturer);
+        product.setAmount(this.amount);
+        product.setValue(this.value);
+        return product;
     }
 }

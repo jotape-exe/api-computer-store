@@ -1,7 +1,9 @@
-package com.computershop.app.model.dto;
+package com.computershop.app.model.dto.request;
 
 import com.computershop.app.enums.StatusOrder;
+import com.computershop.app.model.Customer;
 import com.computershop.app.model.Order;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,12 +11,13 @@ import java.util.Date;
 
 public class OrderDTO {
 
-    @NotNull
+    @NotNull(message = "Invalid Input!")
+    @Future
     private Date creationDate;
-    @NotBlank
+    @NotBlank(message = "Invalid Input!")
     private StatusOrder statusOrder;
-    @NotNull
-    private CustomerDTO customer;
+    @NotNull(message = "Invalid Input!")
+    private Long customerId;
 
     public Date getCreationDate() {
         return creationDate;
@@ -32,15 +35,16 @@ public class OrderDTO {
         this.statusOrder = statusOrder;
     }
 
-    public CustomerDTO getCustomer() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer(CustomerDTO customer) {
-        this.customer = customer;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Order toEntity(){
-        return new Order(this.creationDate, this.statusOrder, this.customer.toEntity());
+        Customer customer = new Customer(this.customerId);
+        return new Order(this.creationDate, this.statusOrder, customer);
     }
 }

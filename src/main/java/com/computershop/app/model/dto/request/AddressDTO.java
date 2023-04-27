@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 public class AddressDTO {
 
-    @NotBlank
+    @NotBlank(message = "Invalid Input!")
     @Size(max = 8)
     private String cep;
 

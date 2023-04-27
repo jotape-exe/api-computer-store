@@ -1,22 +1,22 @@
-package com.computershop.app.model.dto;
+package com.computershop.app.model.dto.request;
 
+import com.computershop.app.model.Address;
 import com.computershop.app.model.Customer;
-import com.computershop.app.model.dto.request.AddressDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class CustomerDTO {
-    @NotBlank
+    @NotBlank(message = "Invalid Input!")
     @Size(min = 2, max = 140)
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Invalid Input!")
     @Size(max = 25)
     private String phone;
 
-    @NotNull
-    private AddressDTO addressDTO;
+    @NotBlank(message = "Invalid Input!")
+    private String zipCode;
 
     public String getName() {
         return name;
@@ -34,16 +34,24 @@ public class CustomerDTO {
         this.phone = phone;
     }
 
-    public AddressDTO getAddressRequest() {
-        return addressDTO;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setAddressRequest(AddressDTO addressDTO) {
-        this.addressDTO = addressDTO;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public Customer toEntity(){
-        return new Customer(this.name,this.phone, this.addressDTO.toEntity());
+        Address address = new Address(this.zipCode);
+        return new Customer(this.name,this.phone, address);
+    }
+    public Customer toEntity(Customer customer){
+        Address address = new Address(this.zipCode);
+        customer.setName(this.name);
+        customer.setPhone(this.phone);
+        customer.setAddress(address);
+        return customer;
     }
 }
 

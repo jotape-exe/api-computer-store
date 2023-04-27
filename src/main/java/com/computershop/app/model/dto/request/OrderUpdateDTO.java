@@ -1,11 +1,11 @@
-package com.computershop.app.model.dto;
+package com.computershop.app.model.dto.request;
 
 import com.computershop.app.enums.StatusOrder;
 import com.computershop.app.model.Order;
 import jakarta.validation.constraints.NotBlank;
 
 public class OrderUpdateDTO {
-    @NotBlank
+    @NotBlank(message = "Invalid Input!")
     private StatusOrder statusOrder;
 
     public StatusOrder getStatusOrder() {
@@ -19,7 +19,7 @@ public class OrderUpdateDTO {
     public OrderUpdateDTO() {
     }
 
-    public Order toENtity(Order order){
+    public Order toEntity(Order order){
         order.setStatusOrder(this.statusOrder);
         return order;
     }
