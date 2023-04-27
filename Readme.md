@@ -19,7 +19,7 @@ Example of a valid brazilian CEP(Zip Code) code request:
 {
   "name": "Joao",
   "phone": "987654321",
-  "addressRequest": {
+  "addressDTO": {
     "cep": "01001001"
   },
   "id": 0
