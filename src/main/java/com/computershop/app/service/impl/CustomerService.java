@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class CustomerService implements CrudService<Customer> /*,ConvertService<Customer, CustomerDTO, CustomerRequest>*/ {
+public class CustomerService implements CrudService<Customer>{
 
     @Autowired
     private CostumerRepository costumerRepository;
@@ -76,27 +76,4 @@ public class CustomerService implements CrudService<Customer> /*,ConvertService<
         customer.setAddress(addressFuture.join());
         return this.costumerRepository.save(customer);
     }
-/*
-    @Override
-    public Customer fromDTO(@Valid CustomerDTO customerDTO){
-        Customer customer = new Customer();
-        customer.setId(customerDTO.toEntity().getId());
-        customer.setName(customerDTO.getName());
-        customer.setPhone(customerDTO.getPhone());
-        customer.setAddress(fromRequest(customerDTO.getAddressRequest()));
-        return customer;
-    }
-
-    @Override
-    public Customer fromRequest(@Valid CustomerRequest customerRequest){
-        Customer customer = new Customer();
-        customer.setId(customerRequest.getId());
-        return customer;
-    }
-
-    public Address fromRequest(@Valid AddressDTO addressDTO){
-        Address address = new Address();
-        address.setCep(addressDTO.getCep());
-        return address;
-    }*/
 }

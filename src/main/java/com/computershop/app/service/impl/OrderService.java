@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class OrderService implements CrudService<Order> /*,ConvertService<Order, OrderDTO, OrderRequest>*/ {
+public class OrderService implements CrudService<Order>{
 
     @Autowired
     private OrderRepositoy orderRepositoy;
@@ -55,22 +55,4 @@ public class OrderService implements CrudService<Order> /*,ConvertService<Order,
             throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
     }
-/*
-    @Override
-    public Order fromDTO(@Valid OrderDTO orderDTO){
-        Order order = new Order();
-        order.setId(orderDTO.getId());
-        order.setStatusOrder(orderDTO.getStatusOrder());
-        order.setCreationDate(orderDTO.getCreationDate());
-        order.setCostumer(this.customerService.fromRequest(orderDTO.getCostumerRequest()));
-
-        return order;
-    }
-
-    @Override
-    public Order fromRequest(@Valid OrderRequest orderRequest){
-        Order order = new Order();
-        order.setId(orderRequest.getId());
-        return order;
-    }*/
 }

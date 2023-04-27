@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class ProductService implements CrudService<Product> /*, ConvertService<Product, ProductDTO, ProductRequest>*/ {
+public class ProductService implements CrudService<Product>{
 
     @Autowired
     private ProductRepository productRepository;
@@ -59,26 +59,4 @@ public class ProductService implements CrudService<Product> /*, ConvertService<P
             throw new DataBindingViolationException("Cannot delete, the entity have relationships");
         }
     }
-/*
-    @Override
-    public Product fromDTO(@Valid ProductDTO productDTO){
-        Product product = new Product();
-
-        product.setId(productDTO.getId());
-        product.setValue(productDTO.getValue());
-        product.setAmount(productDTO.getAmount());
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setManufacturer(productDTO.getManufacturer());
-
-        return product;
-    }
-
-    @Override
-    public Product fromRequest(@Valid ProductRequest productRequest){
-        Product product = new Product();
-        product.setId(productRequest.getId());
-
-        return product;
-    }*/
 }
