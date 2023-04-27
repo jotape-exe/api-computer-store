@@ -19,7 +19,7 @@ Example of a valid brazilian CEP(Zip Code) code request:
 {
   "name": "Slim Shady",
   "phone": "11978651389",
-  "zipCode": "01001-000"
+  "zipCode": "01001000"
 }
 ```
 Response:
