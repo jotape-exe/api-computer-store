@@ -72,5 +72,9 @@ public class Order {
         this.statusOrder = statusOrder;
         this.customer = customer;
     }
+
+    public Order(Long id) {
+        this.id = id;
+    }
 }
 

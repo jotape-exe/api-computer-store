@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", columnDefinition = "INT")
+    @Column(name = "id")
     private Long id;
 
     @JoinColumn(name = "id_order", referencedColumnName = "id")
@@ -55,4 +55,6 @@ public class OrderProduct {
         this.order = order;
         this.product = product;
     }
+
+
 }

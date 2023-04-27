@@ -90,6 +90,10 @@ public class Product {
         this.amount = amount;
     }
 
+    public Product(Long id) {
+        this.id = id;
+    }
+
     public Product(){
 
     }
