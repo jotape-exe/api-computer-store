@@ -3,6 +3,7 @@ package com.computershop.app.exceptions;
 import com.computershop.app.service.exceptions.DataBindingViolationException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
 
+import feign.FeignException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -46,7 +45,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.NOT_FOUND,
                 request);
     }
-/*
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleAllUncaughtException(
@@ -57,7 +55,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "Unknown error occurred",
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 request);
-    }*/
+    }
+
+    @ExceptionHandler(FeignException.BadRequest.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> zipCodeNotValidException(
+            FeignException.BadRequest zipCodeNotValidException, WebRequest request){
+        return buildErrorResponse(
+                zipCodeNotValidException,
+                "ZipCode not Valid!",
+                HttpStatus.BAD_REQUEST,
+                request
+        );
+    }
 
     @ExceptionHandler(DataBindingViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
