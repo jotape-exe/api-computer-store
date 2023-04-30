@@ -11,6 +11,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Optional;
+
 @DisplayName("ProductServiceTest")
 public class ProductServiceTest extends AppApplicationTests {
     @MockBean
@@ -25,6 +27,19 @@ public class ProductServiceTest extends AppApplicationTests {
         Mockito.when(productRepository.save(ArgumentMatchers.eq(product))).thenReturn(product);
 
         productService.create(product);
+    }
+
+    @Test
+    @DisplayName("Deve apagar um produto")
+    public void deveApagarProduto(){
+
+        Long productId = 1L;
+
+        Product product = createProduct();
+
+        Mockito.when(productRepository.findById(ArgumentMatchers.eq(productId))).thenReturn(Optional.of(product));
+
+        productService.delete(productId);
     }
 
     private Product createProduct(){
