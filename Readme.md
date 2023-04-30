@@ -2,13 +2,16 @@
 
 <p>
 <a alt="Java">
-    <img src="https://img.shields.io/badge/Java-v17-red.svg" />
+    <img src="https://img.shields.io/badge/Java-v17-critical.svg" />
 </a>
 <a alt="Spring Boot">
         <img src="https://img.shields.io/badge/Spring%20Boot-v3.0.5-brightgreen.svg" />
 </a>
 <a alt="Gradle">
     <img src="https://img.shields.io/badge/Gradle-v7.6.1-blue.svg" />
+</a>
+<a alt="Junit5">
+    <img src="https://img.shields.io/badge/Junit-v5-red.svg" />
 </a>
 <p>
 
