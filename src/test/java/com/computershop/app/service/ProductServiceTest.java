@@ -12,6 +12,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @DisplayName("ProductServiceTest")
@@ -23,6 +25,8 @@ public class ProductServiceTest extends AppApplicationTests {
 
     private Product product;
 
+    private List<Product> productList;
+
     @BeforeEach
     public void setUp() {
         product = new Product();
@@ -32,6 +36,10 @@ public class ProductServiceTest extends AppApplicationTests {
         product.setDescription("Description test");
         product.setManufacturer("Test Manufacturer");
         product.setValue(333.30);
+
+        productList = new ArrayList<>();
+        productList.add(new Product(1L,"Test Manufacturer","Generic Product","Generic Manufacturer",766.54,80));
+        productList.add(product);
     }
 
     @Test
@@ -51,5 +59,12 @@ public class ProductServiceTest extends AppApplicationTests {
         productService.delete(productId);
 
         Mockito.verify(productRepository, Mockito.times(1)).delete(ArgumentMatchers.any(Product.class));
+    }
+
+    @Test
+    @DisplayName("Deve listar diversos produtos")
+    public void deveListarProdutos(){
+        Mockito.when(productRepository.findAll()).thenReturn(productList);
+        productService.findAll();
     }
 }
