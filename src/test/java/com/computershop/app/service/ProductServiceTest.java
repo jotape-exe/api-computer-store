@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +39,8 @@ public class ProductServiceTest extends AppApplicationTests {
         product.setValue(333.30);
 
         productList = new ArrayList<>();
-        productList.add(new Product(1L,"Test Manufacturer","Generic Product","Generic Manufacturer",766.54,80));
-        productList.add(product);
+        productList.add(new Product(1L,"Generic Manufacturer","Generic Product","Generic Manufacturer",766.54,80));
+        productList.add(new Product(2L,"X Manufacturer","X Product","X Manufacturer",123.76,120));
     }
 
     @Test
@@ -65,6 +66,13 @@ public class ProductServiceTest extends AppApplicationTests {
     @DisplayName("Deve listar diversos produtos")
     public void deveListarProdutos(){
         Mockito.when(productRepository.findAll()).thenReturn(productList);
+        productService.findAll();
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista vazia de produtos")
+    public void deveRetornarUmaListaVazia(){
+        Mockito.when(productRepository.findAll()).thenReturn(null); // Collection.emptyList()
         productService.findAll();
     }
 }
