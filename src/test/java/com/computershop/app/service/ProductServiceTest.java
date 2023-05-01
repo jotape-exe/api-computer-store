@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,11 +45,23 @@ public class ProductServiceTest extends AppApplicationTests {
     }
 
     @Test
-    @DisplayName("Deve retornar um produto valido")
-    public void deveRetornarUmProdutoValido(){
+    @DisplayName("Deve criar um produto valido")
+    public void deveCriarUmProdutoValido(){
         Mockito.when(productRepository.save(ArgumentMatchers.eq(product))).thenReturn(product);
 
         productService.create(product);
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um produto")
+    public void deveAtualizarUmProduto(){
+        Product productToUpdate = new Product(1L,"NEW! Generic Manufacturer","NEW! Generic Product","NEW! Generic Manufacturer",450.54,40);
+        Mockito.when(productRepository.findById(ArgumentMatchers.eq(productToUpdate.getId()))).thenReturn(Optional.of(productToUpdate));
+
+        productService.update(productToUpdate);
+
+        Mockito.verify(productRepository, Mockito.times(1)).save(ArgumentMatchers.eq(productToUpdate));
+
     }
 
     @Test
@@ -72,7 +85,9 @@ public class ProductServiceTest extends AppApplicationTests {
     @Test
     @DisplayName("Deve retornar uma lista vazia de produtos")
     public void deveRetornarUmaListaVazia(){
-        Mockito.when(productRepository.findAll()).thenReturn(null); // Collection.emptyList()
+        Mockito.when(productRepository.findAll()).thenReturn(null); // Collections.emptyList()
         productService.findAll();
     }
+
+
 }
