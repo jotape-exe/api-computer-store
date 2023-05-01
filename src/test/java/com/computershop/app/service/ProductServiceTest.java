@@ -3,20 +3,22 @@ package com.computershop.app.service;
 import com.computershop.app.AppApplicationTests;
 import com.computershop.app.model.Product;
 import com.computershop.app.repository.ProductRepository;
+import com.computershop.app.service.exceptions.ObjectNotFoundException;
 import com.computershop.app.service.impl.ProductService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("ProductServiceTest")
 public class ProductServiceTest extends AppApplicationTests {
@@ -55,7 +57,13 @@ public class ProductServiceTest extends AppApplicationTests {
     @Test
     @DisplayName("Deve atualizar um produto")
     public void deveAtualizarUmProduto(){
-        Product productToUpdate = new Product(1L,"NEW! Generic Manufacturer","NEW! Generic Product","NEW! Generic Manufacturer",450.54,40);
+        Product productToUpdate = new Product(
+                1L,
+                "NEW! Generic Manufacturer",
+                "NEW! Generic Product",
+                "NEW! Generic Manufacturer",
+                450.54,
+                40);
         Mockito.when(productRepository.findById(ArgumentMatchers.eq(productToUpdate.getId()))).thenReturn(Optional.of(productToUpdate));
 
         productService.update(productToUpdate);
@@ -89,5 +97,22 @@ public class ProductServiceTest extends AppApplicationTests {
         productService.findAll();
     }
 
+    @Test
+    @DisplayName("Deve retornar uma Excetion ao executar o 'delete'")
+    public void deveRetornarExceptionAoTentarApagar(){
+        Long productId = 134L;
+
+        Mockito.when(productRepository.findById(ArgumentMatchers.eq(productId))).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(ObjectNotFoundException.class, ()-> {
+            productService.delete(productId);
+        });
+
+        String expectedMsg = "Product Not Found! ID -> "+productId;
+        String actualMsg = exception.getMessage();
+        Assertions.assertTrue(actualMsg.contains(expectedMsg));
+
+        Mockito.verify(productRepository, Mockito.times(0)).delete(ArgumentMatchers.any(Product.class));
+    }
 
 }
