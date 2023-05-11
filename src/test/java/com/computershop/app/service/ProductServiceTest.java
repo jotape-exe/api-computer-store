@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public class ProductServiceTest extends AppApplicationTests {
     }
 
     @Test
-    @DisplayName("Deve retornar uma Excetion ao executar o 'delete'")
+    @DisplayName("Deve retornar uma Exception ao executar o 'delete'")
     public void deveRetornarExceptionAoTentarApagar(){
         Long productId = 134L;
 
