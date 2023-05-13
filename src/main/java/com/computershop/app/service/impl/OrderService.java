@@ -4,7 +4,9 @@ import com.computershop.app.model.Order;
 import com.computershop.app.repository.OrderRepositoy;
 import com.computershop.app.service.CrudService;
 import com.computershop.app.service.exceptions.DataBindingViolationException;
+import com.computershop.app.service.exceptions.ListNotFoundException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +30,11 @@ public class OrderService implements CrudService<Order>{
 
     @Override
     public ArrayList<Order> findAll() {
-        return (ArrayList<Order>) this.orderRepositoy.findAll();
+        ArrayList<Order> orders =  (ArrayList<Order>) this.orderRepositoy.findAll();
+        if (orders.isEmpty()){
+            throw new ListNotFoundException("Order list is empty!");
+        }
+        return orders;
     }
 
     @Override

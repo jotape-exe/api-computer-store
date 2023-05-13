@@ -3,6 +3,7 @@ package com.computershop.app.service.impl;
 import com.computershop.app.model.OrderProduct;
 import com.computershop.app.repository.OrderProductRepository;
 import com.computershop.app.service.exceptions.DataBindingViolationException;
+import com.computershop.app.service.exceptions.ListNotFoundException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,11 @@ public class OrderProductService {
     }
 
     public ArrayList<OrderProduct> findAll() {
-        return (ArrayList<OrderProduct>) this.orderProductRepository.findAll();
+        ArrayList<OrderProduct> orderProducts = (ArrayList<OrderProduct>) this.orderProductRepository.findAll();
+        if (orderProducts.isEmpty()){
+            throw new ListNotFoundException("Order/Products List Is Empty");
+        }
+        return orderProducts;
     }
 
 
