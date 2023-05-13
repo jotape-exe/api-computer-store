@@ -34,7 +34,12 @@ public class ProductController {
                 .stream()
                 .map(ProductView::new)
                 .collect(Collectors.toList());
-        return ResponseEntity.ok().body(products);
+        if (!products.isEmpty()){
+            return ResponseEntity.ok().body(products);
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 
     @PostMapping("/create")
