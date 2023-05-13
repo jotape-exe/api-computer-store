@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,8 +32,8 @@ public class OrderProductController {
         List<OrderProductView> orderProducts = this.orderProductService.findAll()
                 .stream()
                 .map(OrderProductView::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body(orderProducts);
+                .toList();
+        return ResponseEntity.of(Optional.of(orderProducts));
     }
 
     @PostMapping("/new")

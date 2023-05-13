@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -33,12 +34,8 @@ public class ProductController {
         List<ProductView> products = this.productService.findAll()
                 .stream()
                 .map(ProductView::new)
-                .collect(Collectors.toList());
-        if (!products.isEmpty()){
-            return ResponseEntity.ok().body(products);
-        }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+                .toList();
+        return ResponseEntity.of(Optional.of(products));
 
     }
 
