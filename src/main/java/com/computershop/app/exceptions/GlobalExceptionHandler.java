@@ -1,6 +1,7 @@
 package com.computershop.app.exceptions;
 
 import com.computershop.app.service.exceptions.DataBindingViolationException;
+import com.computershop.app.service.exceptions.ListNotFoundException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
 
 import feign.FeignException;
@@ -41,10 +42,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleObjectNotFoundException(ObjectNotFoundException objectNotFoundException, WebRequest request) {
         return buildErrorResponse(
                 objectNotFoundException,
-                "Object not Found!",
+                "Object Not Found!",
                 HttpStatus.NOT_FOUND,
                 request);
     }
+
+    @ExceptionHandler(ListNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleListNotFoundException(ListNotFoundException listNotFoundException, WebRequest request) {
+        return buildErrorResponse(
+                listNotFoundException,
+                "List Not Found!",
+                HttpStatus.NOT_FOUND,
+                request);
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleAllUncaughtException(
@@ -94,10 +106,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus httpStatus,
             WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(httpStatus.value(), message);
-        /*
-        if (this.printStackTrace) {
-            errorResponse.setStackTrace(ExceptionUtils.getStackTrace(exception));
-        }*/
         return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 
