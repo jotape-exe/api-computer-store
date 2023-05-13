@@ -2,12 +2,13 @@ package com.computershop.app.model.dto.request;
 
 import com.computershop.app.model.Address;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 public class AddressDTO {
 
-    @NotBlank(message = "Invalid Input!")
-    @Size(max = 8)
+    @NotEmpty(message = "Invalid Input!")
+    @Size(max = 8, min = 8)
     private String cep;
 
     public String getCep() {

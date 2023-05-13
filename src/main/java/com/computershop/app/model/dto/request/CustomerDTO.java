@@ -3,7 +3,6 @@ package com.computershop.app.model.dto.request;
 import com.computershop.app.model.Address;
 import com.computershop.app.model.Customer;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class CustomerDTO {
