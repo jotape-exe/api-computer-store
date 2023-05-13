@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Table(name = "costumer")
 @Entity
 public class Customer implements Serializable {
-
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
@@ -27,7 +26,7 @@ public class Customer implements Serializable {
     private String phone;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "address_costumer", referencedColumnName = "cep")
+    @JoinColumn( name = "address_costumer", referencedColumnName = "id")
     @NotNull
     private Address address;
 

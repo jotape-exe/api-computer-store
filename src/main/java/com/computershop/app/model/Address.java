@@ -2,29 +2,37 @@ package com.computershop.app.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "address")
-public class Address {
+public class Address implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "cep", nullable = false)
     private String cep;
 
-    @Column(name = "logradouro", columnDefinition = "VARCHAR(255)")
+    @Column(name = "logradouro", columnDefinition = "VARCHAR(255)",nullable = false)
     private String logradouro;
 
-    @Column(name = "complemento", columnDefinition = "VARCHAR(255)")
+    @Column(name = "complemento", columnDefinition = "VARCHAR(255)",nullable = false)
     private String complemento;
 
-    @Column(name = "bairro", columnDefinition = "VARCHAR(255)")
+    @Column(name = "bairro", columnDefinition = "VARCHAR(255)",nullable = false)
     private String bairro;
 
-    @Column(name = "localidade", columnDefinition = "VARCHAR(255)")
+    @Column(name = "localidade", columnDefinition = "VARCHAR(255)",nullable = false)
     private String localidade;
 
-    @Column(name = "uf", columnDefinition = "VARCHAR(2)")
+    @Column(name = "uf", columnDefinition = "VARCHAR(2)",nullable = false)
     private String uf;
 
-    @Column(name = "ddd", columnDefinition = "VARCHAR(2)")
+    @Column(name = "ddd", columnDefinition = "VARCHAR(2)",nullable = false)
     private String ddd;
 
     public String getCep() {
@@ -83,6 +91,14 @@ public class Address {
         this.ddd = ddd;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Address(String cep) {
         this.cep = cep;
     }
@@ -96,8 +112,6 @@ public class Address {
         this.uf = uf;
         this.ddd = ddd;
     }
-
-
     public Address(){
 
     }
