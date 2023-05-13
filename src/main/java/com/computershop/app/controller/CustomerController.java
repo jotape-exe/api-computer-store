@@ -4,6 +4,7 @@ import com.computershop.app.model.Customer;
 import com.computershop.app.model.dto.request.CustomerDTO;
 import com.computershop.app.model.dto.response.CustomerView;
 import com.computershop.app.model.dto.response.CustomerViewList;
+import com.computershop.app.service.exceptions.ZipCodeException;
 import com.computershop.app.service.impl.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,17 +36,16 @@ public class CustomerController {
         List<CustomerViewList> customers = this.customerService.findAll()
                 .stream()
                 .map(CustomerViewList::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body((customers));
+                .toList();
+        return ResponseEntity.of(Optional.of(customers));
     }
 
     @PostMapping("/new/")
-    public ResponseEntity<Void> createClient(@RequestBody @Valid CustomerDTO customerDTO){
+    public ResponseEntity<Void> createClient(@RequestBody @Valid CustomerDTO customerDTO) throws ZipCodeException {
         Customer customer = this.customerService.create(customerDTO.toEntity());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    //UPDATE????
     @PutMapping("/update/{id}")
     public ResponseEntity<Void> updateClient(@RequestBody @Valid CustomerDTO customerDTO, @PathVariable Long id){
         Customer customer = this.customerService.findById(id);
