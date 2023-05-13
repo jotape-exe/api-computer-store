@@ -4,6 +4,7 @@ import com.computershop.app.service.exceptions.DataBindingViolationException;
 import com.computershop.app.service.exceptions.ListNotFoundException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
 
+import com.computershop.app.service.exceptions.ZipCodeException;
 import feign.FeignException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ObjectNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Object> handleObjectNotFoundException(ObjectNotFoundException objectNotFoundException, WebRequest request) {
+    public ResponseEntity<Object> handleObjectNotFoundException(
+            ObjectNotFoundException objectNotFoundException,
+            WebRequest request) {
         return buildErrorResponse(
                 objectNotFoundException,
                 "Object Not Found!",
@@ -49,7 +52,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ListNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Object> handleListNotFoundException(ListNotFoundException listNotFoundException, WebRequest request) {
+    public ResponseEntity<Object> handleListNotFoundException(
+            ListNotFoundException listNotFoundException,
+            WebRequest request) {
         return buildErrorResponse(
                 listNotFoundException,
                 "List Not Found!",
@@ -57,22 +62,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 request);
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<Object> handleAllUncaughtException(
-            Exception exception,
-            WebRequest request) {
-        return buildErrorResponse(
-                exception,
-                "Unknown error occurred",
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                request);
-    }
 
     @ExceptionHandler(FeignException.BadRequest.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> feignException(
+            FeignException.BadRequest feignException,
+            WebRequest request){
+        return buildErrorResponse(
+                feignException,
+                "ZipCode not Valid!",
+                HttpStatus.BAD_REQUEST,
+                request
+        );
+    }
+
+    @ExceptionHandler(ZipCodeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> zipCodeNotValidException(
-            FeignException.BadRequest zipCodeNotValidException, WebRequest request){
+            ZipCodeException zipCodeNotValidException,
+            WebRequest request){
         return buildErrorResponse(
                 zipCodeNotValidException,
                 "ZipCode not Valid!",
@@ -90,6 +98,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 dataBindingViolationException,
                 "Cannot delete, entity has relationships!",
                 HttpStatus.CONFLICT,
+                request);
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Object> handleAllUncaughtException(
+            Exception exception,
+            WebRequest request) {
+        return buildErrorResponse(
+                exception,
+                "Unknown error occurred",
+                HttpStatus.INTERNAL_SERVER_ERROR,
                 request);
     }
 
