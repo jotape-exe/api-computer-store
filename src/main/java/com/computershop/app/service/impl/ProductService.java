@@ -4,6 +4,7 @@ import com.computershop.app.model.Product;
 import com.computershop.app.repository.ProductRepository;
 import com.computershop.app.service.CrudService;
 import com.computershop.app.service.exceptions.DataBindingViolationException;
+import com.computershop.app.service.exceptions.ListNotFoundException;
 import com.computershop.app.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,11 @@ public class ProductService implements CrudService<Product>{
 
     @Override
     public ArrayList<Product> findAll() {
-        return (ArrayList<Product>) this.productRepository.findAll();
+        ArrayList<Product> products = (ArrayList<Product>) this.productRepository.findAll();
+        if (products.isEmpty()) {
+            throw new ListNotFoundException("Product list is empty");
+        }
+        return products;
     }
 
     @Override
